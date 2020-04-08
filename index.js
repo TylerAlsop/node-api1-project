@@ -41,9 +41,9 @@ server.get("/users/:id", (req, res) => {
 //////////////// post ////////////////
 
 server.post("/api/users", (req, res) => {
-    if (!req.body.name) {
+    if (!req.body.name || !req.body.bio) {
         return res.status(400).json({
-            message: "Need a user name.",
+            message: "Both a user name and bio are required.",
         })
     };
 
