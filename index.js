@@ -49,6 +49,7 @@ server.post("/api/users", (req, res) => {
 
     const newUser = db.createUser({
         name: req.body.name,
+        bio: req.body.bio
     })
 
     res.status(201).json(newUser);
