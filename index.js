@@ -1,3 +1,5 @@
+const db = require("./database.js");
+
 const express = require("express");
 
 const server = express();
@@ -11,16 +13,37 @@ server.listen(3000, () => {
 
 //////////////// get ////////////////
 
-server.get("/", (req, res) => {
-    res.json({ message: "Hello World" })
+server.get("/api/", (req, res) => {
+    res.json({ message: "Hello World. This is the home page route" })
+});
+
+server.get("/api/users", (req, res) => {
+    res.json({ message: "Welcome to the route displaying the users." })
+    const users = db.getUsers();
+    res.json(users);
+});
+
+server.get("/users/:id", (req, res) => {
+    res.json({ message: "Users by ID!" })
+
+    const userId = req.params.id;
+    const user = db.getUserById(userId);
+
+    if (user) {
+        res.json(user)
+    } else {
+        res.status(404).json({
+            message: "User not found",
+        })
+    }
 });
 
 //////////////// post ////////////////
 
-server.post("/users", (req, res) => {
+server.post("/api/users", (req, res) => {
     if (!req.body.name) {
         return res.status(400).json({
-            message: "Need a user name",
+            message: "Need a user name.",
         })
     };
 
@@ -31,9 +54,9 @@ server.post("/users", (req, res) => {
     res.status(201).json(newUser);
 })
 
-//////////////// put ////////////////
+//////////////// put & patch ////////////////
 
-server.put("/users/:id", (req, res) => {
+server.patch("/api/users/:id", (req, res) => {
     const user = db.getUserById(req.params.id)
 
     if (user) {
@@ -53,7 +76,7 @@ server.put("/users/:id", (req, res) => {
 
 //////////////// delete ////////////////
 
-server.delete("/users/:id", (req, res) => {
+server.delete("/api/users/:id", (req, res) => {
     const user = db.getUserById(req.params.id)
 
     if (user) {
