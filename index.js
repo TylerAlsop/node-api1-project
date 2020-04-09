@@ -101,6 +101,10 @@ server.put("/api/users/:id", (req, res) => {
             })
     
             res.json(updatedUser)
+        } else if (!req.body.name || !req.body.bio) {
+            return res.status(400).json({
+                message: "Please provide name and bio for the user.",
+            })
         } else {
             res.status(404).json({
                 message: "The user with the specified ID does not exist."
@@ -116,14 +120,6 @@ server.put("/api/users/:id", (req, res) => {
 
     res.status(200).json(updatedUser)
 })
-
-/*************** Not sure how to add this one *****************
-* If the request body is missing the name or bio property:
-
-    respond with HTTP status code 400 (Bad Request).
-    return the following JSON response: { errorMessage: "Please provide name and bio for the user." }.
-*/
-
 
 
 
