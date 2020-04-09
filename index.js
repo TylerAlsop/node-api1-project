@@ -59,40 +59,32 @@ server.get("/api/users/:id", (req, res) => {
 });
 
 
-
 //////////////// post ////////////////
 
 server.post("/api/users", (req, res) => {
-    if (!req.body.name || !req.body.bio) {
-        return res.status(400).json({
-            message: "Both a user name and bio are required.",
-        })
-    };
 
     const newUser = db.createUser({
         name: req.body.name,
         bio: req.body.bio
     })
 
-    res.status(201).json(newUser);
+    .then(newUser => {
+        if (!req.body.name || !req.body.bio) {
+            return res.status(400).json({
+                message: "Both a user name and bio are required.",
+            })
+        } else {
+            res.status(201).json(newUser);
+        }
+    })
 
-
-    /* *********** Attempt at requirement shown below ***********
-
-    if (!res) {
+    .catch(errors => {
         res.status(500).json({
             errorMessage: "There was an error while saving the user to the database."
         })
-    }
-    */
-})
+    })
 
-/*************** See attempt above *****************
- * If there's an error while saving the user:
-
-    respond with HTTP status code 500 (Server Error).
-    return the following JSON object: { errorMessage: "There was an error while saving the user to the database" }. 
-*/
+});
 
 
 
@@ -101,27 +93,20 @@ server.post("/api/users", (req, res) => {
 server.put("/api/users/:id", (req, res) => {
     const user = db.getUserById(req.params.id)
 
-    if (user) {
-        const updatedUser = db.updateUser(user.id, {
-            name: req.body.name || user.name
-            bio: req.body.bio || user.bio
-        })
-
-        res.json(updatedUser)
-    } else {
-        res.status(404).json({
-            message: "The user with the specified ID does not exist."
-        })
-    };
-
-    /* *********** Attempt at requirement shown below ***********
-
-    if (!req.body.name || !req.body.bio) {
-        res.status(400).json({
-            errorMessage: "Please provide name and bio for the user."
-        })
-    }
-    */
+    .then(user => {
+        if (user) {
+            const updatedUser = db.updateUser(user.id, {
+                name: req.body.name || user.name
+                bio: req.body.bio || user.bio
+            })
+    
+            res.json(updatedUser)
+        } else {
+            res.status(404).json({
+                message: "The user with the specified ID does not exist."
+            })
+        };
+    })
 
     res.status(200).json(updatedUser)
 })
