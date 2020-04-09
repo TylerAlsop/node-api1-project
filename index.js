@@ -37,7 +37,7 @@ server.get("/api/users/:id", (req, res) => {
     res.json({ message: "Users by ID!" })
 
     const userId = req.params.id;
-    const user = db.getUserById(userId);
+    const user = db.getUserById(userId)
 
     .then(user => {
         if (user) {
@@ -73,8 +73,6 @@ server.post("/api/users", (req, res) => {
             return res.status(400).json({
                 message: "Both a user name and bio are required.",
             })
-        } else {
-            res.status(201).json(newUser);
         }
     })
 
@@ -83,6 +81,8 @@ server.post("/api/users", (req, res) => {
             errorMessage: "There was an error while saving the user to the database."
         })
     })
+
+    res.status(201).json(newUser);
 
 });
 
@@ -96,7 +96,7 @@ server.put("/api/users/:id", (req, res) => {
     .then(user => {
         if (user) {
             const updatedUser = db.updateUser(user.id, {
-                name: req.body.name || user.name
+                name: req.body.name || user.name,
                 bio: req.body.bio || user.bio
             })
     
@@ -108,19 +108,20 @@ server.put("/api/users/:id", (req, res) => {
         };
     })
 
+    .catch(errors => {
+        res.status(500).json({
+            errorMessage: "The user information could not be modified."
+        })
+    })
+
     res.status(200).json(updatedUser)
 })
 
-/*************** See attempt(s) above *****************
+/*************** Not sure how to add this one *****************
 * If the request body is missing the name or bio property:
 
     respond with HTTP status code 400 (Bad Request).
     return the following JSON response: { errorMessage: "Please provide name and bio for the user." }.
-
-*If there's an error when updating the user:
-
-    respond with HTTP status code 500.
-    return the following JSON object: { errorMessage: "The user information could not be modified." }.
 */
 
 
@@ -131,21 +132,23 @@ server.put("/api/users/:id", (req, res) => {
 server.delete("/api/users/:id", (req, res) => {
     const user = db.getUserById(req.params.id)
 
-    if (user) {
-        db.deleteUser(user.id)
+    .then(user => {
+        if (user) {
+            db.deleteUser(user.id)
+    
+            //204 is just a successful empty response
+            res.status(204).end()
+        } else {
+            res.status(404).json({
+                message: "The user with the specified ID does not exist."
+            })
+        }
+    })
 
-        //204 is just a successful empty response
-        res.status(204).end()
-    } else {
-        res.status(404).json({
-            message: "The user with the specified ID does not exist."
+    .catch(errors => {
+        res.status(500).json({
+            errorMessage: "The user could not be removed."
         })
-    };
+    })
+    
 })
-
-/*************** Not sure how to do this: *****************
-If there's an error in removing the user from the database:
-
-    respond with HTTP status code 500.
-    return the following JSON object: { errorMessage: "The user could not be removed" }. 
-*/
