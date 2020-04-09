@@ -53,7 +53,18 @@ server.post("/api/users", (req, res) => {
     })
 
     res.status(201).json(newUser);
+    /* if (!res) {
+        res.status(500).json({
+            errorMessage: "There was an error while saving the user to the database."
+        })
+    }
+    */
 })
+
+/*If there's an error while saving the user:
+
+respond with HTTP status code 500 (Server Error).
+return the following JSON object: { errorMessage: "There was an error while saving the user to the database" }. */
 
 //////////////// put & patch ////////////////
 
