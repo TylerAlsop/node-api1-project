@@ -33,27 +33,30 @@ server.get("/api/users", (req, res) => {
 
 });
 
-server.get("/users/:id", (req, res) => {
+server.get("/api/users/:id", (req, res) => {
     res.json({ message: "Users by ID!" })
 
     const userId = req.params.id;
     const user = db.getUserById(userId);
 
-    if (user) {
-        res.json(user)
-    } else {
-        res.status(404).json({
-            message: "The user with the specified ID does not exist."
+    .then(user => {
+        if (user) {
+            res.status(200).json(user)
+        } else {
+            res.status(404).json({
+                message: "The user with the specified ID does not exist."
+            })
+        }
+    })
+
+    .catch(errors => {
+        console.log(error);
+        res.status(500).json({
+            errorMessage: "The user information could not be retrieved."
         })
-    }
+    })
+    
 });
-/*************** Not sure how to do this: *****************
- * If there's an error in retrieving the user from the database:
-
-    respond with HTTP status code 500.
-    return the following JSON object: { errorMessage: "The user information could not be retrieved." }. 
-*/
-
 
 
 
