@@ -1,14 +1,15 @@
 {
-  "private": true,
-  "scripts": {},
-  "devDependencies": {},
+  "name": "node-api1-project",
+  "version": "1.0.0",
+  "description": "## Topics",
+  "main": "index.js",
   "dependencies": {
     "express": "^4.17.1"
   },
-  "name": "node-api1-project",
-  "description": "## Topics",
-  "version": "1.0.0",
-  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/TylerAlsop/node-api1-project.git"
