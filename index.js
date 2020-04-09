@@ -100,7 +100,7 @@ server.put("/api/users/:id", (req, res) => {
         const updatedUser = db.updateUser(user.id, {
             name: req.body.name || user.name
             bio: req.body.bio || user.bio
-        });
+        })
 
         res.json(updatedUser)
     } else {

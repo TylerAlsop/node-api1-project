@@ -1,8 +1,23 @@
 {
-	"private": true,
-	"scripts": {},
-	"devDependencies": {},
-	"dependencies": {
-		"express": "^4.17.1"
-	}
+  "private": true,
+  "scripts": {},
+  "devDependencies": {},
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "name": "node-api1-project",
+  "description": "## Topics",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TylerAlsop/node-api1-project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TylerAlsop/node-api1-project/issues"
+  },
+  "homepage": "https://github.com/TylerAlsop/node-api1-project#readme"
 }
