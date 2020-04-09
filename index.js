@@ -48,8 +48,9 @@ server.get("/users/:id", (req, res) => {
 /*************** Not sure how to do this: *****************
  * If there's an error in retrieving the user from the database:
 
-respond with HTTP status code 500.
-return the following JSON object: { errorMessage: "The user information could not be retrieved." }. */
+    respond with HTTP status code 500.
+    return the following JSON object: { errorMessage: "The user information could not be retrieved." }. 
+*/
 
 
 
@@ -71,7 +72,9 @@ server.post("/api/users", (req, res) => {
     res.status(201).json(newUser);
 
 
-    /* if (!res) {
+    /* *********** Attempt at requirement shown below ***********
+
+    if (!res) {
         res.status(500).json({
             errorMessage: "There was an error while saving the user to the database."
         })
@@ -82,8 +85,9 @@ server.post("/api/users", (req, res) => {
 /*************** See attempt above *****************
  * If there's an error while saving the user:
 
-respond with HTTP status code 500 (Server Error).
-return the following JSON object: { errorMessage: "There was an error while saving the user to the database" }. */
+    respond with HTTP status code 500 (Server Error).
+    return the following JSON object: { errorMessage: "There was an error while saving the user to the database" }. 
+*/
 
 
 
@@ -105,7 +109,8 @@ server.put("/api/users/:id", (req, res) => {
         })
     };
 
-    /*
+    /* *********** Attempt at requirement shown below ***********
+
     if (!req.body.name || !req.body.bio) {
         res.status(400).json({
             errorMessage: "Please provide name and bio for the user."
@@ -151,5 +156,6 @@ server.delete("/api/users/:id", (req, res) => {
 /*************** Not sure how to do this: *****************
 If there's an error in removing the user from the database:
 
-respond with HTTP status code 500.
-return the following JSON object: { errorMessage: "The user could not be removed" }. */
+    respond with HTTP status code 500.
+    return the following JSON object: { errorMessage: "The user could not be removed" }. 
+*/
